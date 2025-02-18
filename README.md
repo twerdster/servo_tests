@@ -6,7 +6,10 @@ This repository contains simple first test setups and configurations for evaluat
 
 - **iPOWER Motor GM5208-24**
 - **iPower Motor GM2804**
+- **iPower Motor GM4109**
 - **MiToot 2804/100KV**
+- **MiToot 2804/100T**
+
 
 Each servo has its own folder containing dedicated test scripts, configurations, and documentation.
 
@@ -15,15 +18,15 @@ Each servo has its own folder containing dedicated test scripts, configurations,
 ```
 /repo-root
 ├── iPOWER_Motor_GM5208-24/
-│   ├── README.md
 │   └── test_sensorless.py
 ├── iPower_Motor_GM2804/
-│   ├── README.md
 │   └── test_sensorless.py
 ├── MiToot_2804_100KV/
-│   ├── README.md
 │   └── test_sensorless.py
-├── requirements.txt
+├── MiToot_2206_100T/
+│   └── test_sensorless.py
+├── iPOWER_Motor_GM4109/
+│   └── test_sensorless.py
 └── README.md
 ```
 

@@ -1,6 +1,16 @@
 # Servo Sensorless Testing Repository
 
+[![Python 3.8](https://img.shields.io/badge/Python-3.8-3776AB?logo=python&logoColor=white)](#prerequisites)
+[![ODrive v3.5 Lite, firmware 0.5.4](https://img.shields.io/badge/ODrive-v3.5%20Lite%20%C2%B7%20FW%200.5.4-555555)](#odrive-installation-and-firmware-update-procedure)
+[![License: MIT](https://img.shields.io/badge/license-MIT-green)](LICENSE)
+
+![Abstract diagram of the setup: host computer with odrivetool and a per-motor script, USB to an M5Stack ODrive v3.5 Lite, three phase wires to a sensorless gimbal BLDC motor](docs/images/sensorless-setup.svg)
+
+*Abstract diagram of the setup described below. It is not a photo and shows no measured motor behaviour.*
+
 This repository contains simple first test setups and configurations for evaluating sensorless control of various servos using an ODrive motor controller. The current goal is to understand what makes these servos run sensorless. 
+
+Each `test_sensorless.py` configures axis 0 as a gimbal motor in sensorless velocity-control mode. The scripts use the `dev0` handle and constants that `odrivetool` provides, so they are meant to be run from an `odrivetool` session. These are early experiments; check the current and voltage limits in each script against your own motor and supply before running one.
 
 ## Current List Of Tested Servos
 

@@ -1,0 +1,61 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="340" viewBox="0 0 960 340" role="img" aria-labelledby="title desc">
+  <title id="title">Sensorless servo test setup (abstract diagram)</title>
+  <desc id="desc">Abstract diagram, not a photo or measurement: a host computer runs odrivetool and a per-motor test script, connected over USB to an M5Stack ODrive v3.5 Lite (24 V, firmware 0.5.4), which drives a brushless gimbal motor through three phase wires without an encoder.</desc>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#4b5563"/>
+    </marker>
+  </defs>
+  <style>
+    text { font-family: -apple-system, "Segoe UI", Helvetica, Arial, sans-serif; fill: #1f2937; }
+    .h { font-size: 17px; font-weight: 700; }
+    .t { font-size: 13px; }
+    .m { font-family: ui-monospace, Menlo, Consolas, monospace; font-size: 12px; fill: #374151; }
+    .note { font-size: 12px; fill: #6b7280; font-style: italic; }
+    .flow { stroke: #4b5563; stroke-width: 2; fill: none; marker-end: url(#arrow); }
+  </style>
+  <rect width="960" height="340" fill="#ffffff"/>
+  <text x="24" y="34" class="h" style="font-size:20px">Sensorless BLDC servo tests with an ODrive</text>
+  <text x="936" y="34" class="note" text-anchor="end">Abstract diagram, not a photo or measurement</text>
+
+  <!-- Host -->
+  <rect x="24" y="70" width="290" height="190" rx="12" fill="#eef2ff" stroke="#6366f1" stroke-width="1.5"/>
+  <text x="169" y="98" class="h" text-anchor="middle">Host computer</text>
+  <text x="44" y="126" class="t">Python 3.8 virtual environment</text>
+  <text x="44" y="148" class="m">odrive 0.5.1.post0 → 0.5.4</text>
+  <text x="44" y="170" class="m">odrivetool / odrivetool dfu</text>
+  <text x="44" y="200" class="t">Per-motor script, for example</text>
+  <text x="44" y="222" class="m">iPOWER_Motor_GM5208-24/</text>
+  <text x="58" y="240" class="m">test_sensorless.py</text>
+
+  <!-- ODrive -->
+  <rect x="380" y="70" width="250" height="190" rx="12" fill="#ecfdf5" stroke="#10b981" stroke-width="1.5"/>
+  <text x="505" y="98" class="h" text-anchor="middle">M5Stack ODrive</text>
+  <text x="505" y="120" class="t" text-anchor="middle">v3.5 Lite, 24 V driver</text>
+  <text x="505" y="142" class="t" text-anchor="middle">firmware 0.5.4</text>
+  <text x="400" y="176" class="t">• sensorless estimator</text>
+  <text x="400" y="198" class="t">• velocity control mode</text>
+  <text x="400" y="220" class="t">• ramp, current and gain limits</text>
+  <text x="400" y="242" class="t">  set by the script</text>
+
+  <!-- Motor -->
+  <rect x="696" y="70" width="240" height="190" rx="12" fill="#fff7ed" stroke="#f59e0b" stroke-width="1.5"/>
+  <text x="816" y="98" class="h" text-anchor="middle">Gimbal BLDC motor</text>
+  <circle cx="816" cy="162" r="46" fill="#ffffff" stroke="#b45309" stroke-width="2"/>
+  <circle cx="816" cy="162" r="30" fill="#fde68a" stroke="#b45309" stroke-width="1.5"/>
+  <circle cx="816" cy="162" r="6" fill="#b45309"/>
+  <path d="M786,128 A46,46 0 0 1 852,124" stroke="#b45309" stroke-width="2" fill="none" marker-end="url(#arrow)"/>
+  <text x="816" y="230" class="t" text-anchor="middle">no encoder</text>
+  <text x="816" y="248" class="t" text-anchor="middle">(sensorless)</text>
+
+  <!-- links -->
+  <path d="M314,165 L376,165" class="flow"/>
+  <text x="345" y="155" class="t" text-anchor="middle">USB</text>
+  <path d="M630,150 L692,150" class="flow"/>
+  <path d="M630,165 L692,165" class="flow"/>
+  <path d="M630,180 L692,180" class="flow"/>
+  <text x="661" y="140" class="t" text-anchor="middle">3 phases</text>
+
+  <text x="24" y="296" class="note">Diagram of the setup described in the README and test scripts. Versions are the ones the README reports.</text>
+  <text x="24" y="316" class="note">It does not show motor behaviour or test outcomes. Motor and driver parameters differ per folder.</text>
+</svg>

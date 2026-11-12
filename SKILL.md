@@ -15,6 +15,8 @@ Treat every script as a live hardware mutation, not a unit test. Future executio
 - Inspect labels inside diagrams as well as captions. Never turn a schematic or generated input
   into an implied successful run.
 - Keep original source, credits and license notices intact for documentation-only changes.
+- Include new and staged files in formatting checks: stage the intended documentation paths,
+  then run `git diff --cached --check`. An unstaged diff alone does not check new files.
 - Review and synchronize `SUMMARY.md` and `SKILL.md` before every commit. Record any unrun checks
   as limitations rather than implying that validation passed.
 

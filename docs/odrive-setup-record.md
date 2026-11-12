@@ -8,15 +8,15 @@ scripts, their execution context and limits.
 ## Original account
 
 
-These instructions are a reference for setting up the M5Stack 13.2 ODrive device  
-(labeled as ODrive v3.5 Lite with a 24V driver) which can be obtained from  
+These instructions are a reference for setting up the M5Stack 13.2 ODrive device\
+(labeled as ODrive v3.5 Lite with a 24V driver) which can be obtained from\
 [the M5Stack ODrive page](https://docs.m5stack.com/en/module/odrive).
 
-> **Note:** The official instructions were not helpful for my setup.  
-> The odrive they suggested was version **0.5.1.post0** which is very old and current versions of `odrivetool`  
-> refused to communicate and upgrade the firmware (which on my unit was shipped as v0.3.7-dev). To work around this, I built a virtual environment,  
-> installed **odrive 0.5.1**, then used `odrivetool dfu` to update the firmware to **0.5.4**.  
-> I was unable to upgrade further because the device did not immediately enter DFU mode  
+> **Note:** The official instructions were not helpful for my setup.\
+> The odrive they suggested was version **0.5.1.post0** which is very old and current versions of `odrivetool`\
+> refused to communicate and upgrade the firmware (which on my unit was shipped as v0.3.7-dev). To work around this, I built a virtual environment,\
+> installed **odrive 0.5.1**, then used `odrivetool dfu` to update the firmware to **0.5.4**.\
+> I was unable to upgrade further because the device did not immediately enter DFU mode\
 > after the 0.5.4 update, so I left the firmware at 0.5.4.
 
 ---
@@ -32,10 +32,10 @@ These instructions are a reference for setting up the M5Stack 13.2 ODrive device
   sudo apt update
   sudo apt install -y python3.8 python3.8-venv python3.8-dev
   ```
-  
+
 ---
 
-## Setting Up the Virtual Environment 
+## Setting Up the Virtual Environment
 
    ```bash
 # Create a virtual environment (named odrive-env)

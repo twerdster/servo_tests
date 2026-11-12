@@ -14,6 +14,11 @@ Key entry points: `iPOWER_Motor_GM5208-24/test_sensorless.py`, `iPOWER_Motor_GM2
 
 The README explains operations, requirements, validation scope and limitations. Its pre-existing explanatory SVG is retained and labeled as a schematic rather than a runtime result. Source files and attribution are unchanged.
 
+## Documentation validation
+
+Formatting checks cover staged changes, including newly added guides. The historical setup
+record uses explicit Markdown hard breaks; whitespace cleanup preserves its rendered HTML.
+
 ## Validation scope
 
 All five scripts inspected; no hardware connected, firmware changed, motor run or measurements collected. No assertions, traces or quantitative pass/fail record.

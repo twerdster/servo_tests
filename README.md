@@ -1,135 +1,88 @@
-# Servo Sensorless Testing Repository
+# ODrive sensorless motor experiments
 
-[![Python 3.8](https://img.shields.io/badge/Python-3.8-3776AB?logo=python&logoColor=white)](#prerequisites)
-[![ODrive v3.5 Lite, firmware 0.5.4](https://img.shields.io/badge/ODrive-v3.5%20Lite%20%C2%B7%20FW%200.5.4-555555)](#odrive-installation-and-firmware-update-procedure)
+[![Python](https://img.shields.io/badge/code-Python-3776AB?logo=python&logoColor=white)](#setup-and-use)
+[![Historical ODrive setup](https://img.shields.io/badge/historical%20ODrive-v3.5%20Lite%20%C2%B7%20FW%200.5.4-555555)](docs/odrive-setup-record.md)
 [![License: MIT](https://img.shields.io/badge/license-MIT-green)](LICENSE)
 
-![Abstract diagram of the setup: host computer with odrivetool and a per-motor script, USB to an M5Stack ODrive v3.5 Lite, three phase wires to a sensorless gimbal BLDC motor](docs/images/sensorless-setup.svg)
+This repository stores per-motor ODrive configuration scripts for experiments with sensorless
+velocity control of gimbal BLDC motors. Each script configures axis 0, requests closed-loop
+control, waits for startup and commands a fixed velocity. The purpose is to retain the parameter
+sets used while investigating whether these motors could run without encoder feedback.
 
-*Abstract diagram of the setup described below. It is not a photo and shows no measured motor behaviour.*
+![Schematic of host, ODrive controller and gimbal motor](docs/images/sensorless-setup.svg)
 
-This repository contains simple first test setups and configurations for evaluating sensorless control of various servos using an ODrive motor controller. The current goal is to understand what makes these servos run sensorless. 
+*Setup schematic, not a photograph or a measurement of motor behavior.*
 
-Each `test_sensorless.py` configures axis 0 as a gimbal motor in sensorless velocity-control mode. The scripts use the `dev0` handle and constants that `odrivetool` provides, so they are meant to be run from an `odrivetool` session. These are early experiments; check the current and voltage limits in each script against your own motor and supply before running one.
+## Available configurations
 
-## Current List Of Tested Servos
+The tracked folders are:
 
-- **iPOWER Motor GM5208-24**
-- **iPower Motor GM2804**
-- **iPower Motor GM4109**
-- **MiToot 2804/100KV**
-- **MiToot 2804/100T**
+- [iPOWER_Motor_GM5208-24/](iPOWER_Motor_GM5208-24/)
+- [iPOWER_Motor_GM2804/](iPOWER_Motor_GM2804/)
+- [iPOWER_Motor_GM4109/](iPOWER_Motor_GM4109/)
+- [MiToot_2804_100KV/](MiToot_2804_100KV/)
+- [MiToot_2206_100T/](MiToot_2206_100T/)
+
+Each folder contains `test_sensorless.py`. These are hardware-control experiments rather than
+assertion-based tests. The folder names identify the recorded configurations; their presence
+does not establish that every motor completed a successful test.
+
+The scripts set motor type, pole pairs, resistance, current limits, flux linkage, sensorless
+startup ramp and velocity controller gains. They use `dev0` and enum constants supplied by an
+`odrivetool` session. They modify live device state and can start the connected motor; they do
+not automatically stop it or save a measurement file.
+
+## Setup and use
+
+The historical setup used an M5Stack ODrive v3.5 Lite 24 V module and firmware 0.5.4. The original
+setup notes used Linux and Python 3.8 and reported communication problems with other package
+versions. See the [setup and firmware-update record](docs/odrive-setup-record.md) for that sequence;
+it is not a verified procedure for current ODrive hardware or firmware.
+
+The following environment commands describe the recorded firmware setup and were not executed
+for this review. Availability with current package tooling was not verified:
 
 
-Each servo has its own folder containing dedicated test scripts, configurations, and documentation.
-
-## Repository Structure
-
-```
-/repo-root
-├── iPOWER_Motor_GM5208-24/
-│   └── test_sensorless.py
-├── iPower_Motor_GM2804/
-│   └── test_sensorless.py
-├── MiToot_2804_100KV/
-│   └── test_sensorless.py
-├── MiToot_2206_100T/
-│   └── test_sensorless.py
-├── iPOWER_Motor_GM4109/
-│   └── test_sensorless.py
-└── README.md
-```
-
-## Getting Started
-
-# M5Stack ODrive (v3.5 Lite, 24V) Setup Instructions
-
-These instructions are a reference for setting up the M5Stack 13.2 ODrive device  
-(labeled as ODrive v3.5 Lite with a 24V driver) which can be obtained from  
-[the M5Stack ODrive page](https://docs.m5stack.com/en/module/odrive).
-
-> **Note:** The official instructions were not helpful for my setup.  
-> The odrive they suggested was version **0.5.1.post0** which is very old and current versions of `odrivetool`  
-> refused to communicate and upgrade the firmware (which on my unit was shipped as v0.3.7-dev). To work around this, I built a virtual environment,  
-> installed **odrive 0.5.1**, then used `odrivetool dfu` to update the firmware to **0.5.4**.  
-> I was unable to upgrade further because the device did not immediately enter DFU mode  
-> after the 0.5.4 update, so I left the firmware at 0.5.4.
-
----
-
-## Prerequisites
-
-- A Linux system with Python 3.8 installed (3.9 didnt work and 3.8 is not available on latest Ubuntu versions by default).
-- Note: this should work on a Mac also
-- The following packages (using apt):
-  ```bash
-  sudo apt update && sudo apt install -y python3.8 python3.8-venv python3.8-dev software-properties-common
-  sudo add-apt-repository ppa:deadsnakes/ppa -y
-  sudo apt update
-  sudo apt install -y python3.8 python3.8-venv python3.8-dev
-  ```
-  
----
-
-## Setting Up the Virtual Environment 
-
-   ```bash
-# Create a virtual environment (named odrive-env)
-python3.8 -m venv ~/odrive-env
-
-# Activate the virtual environment
-source ~/odrive-env/bin/activate
-
-# Upgrade pip to the latest version
-pip install --upgrade pip
-
-   ```
-
----
-
-## Odrive Installation and Firmware Update Procedure
-   ```bash
-
-# Install ODrive 0.5.1.post0 because newer versions refused to upgrade firmware
-pip install odrive==0.5.1.post0
-
-# Verify the installation by printing the installed ODrive version
-python -c "import odrive; print(odrive.__version__)"
-
-# Launch odrivetool to make sure the odrive device is visible to the tool - it should show a connected message
-odrivetool
-
-# Leave odrivetool and then enter dfu mode to upgrade the FW to one later (if I remember correctly it updated to 0.5.1 from 0.3.7)
-odrivetool dfu
-
-# Then update odrivetool to 0.5.4 and then repeat the FW upgrade for the odrive
-pip install odrive==0.5.4
-odrivetool dfu
-
-# The result of this should be a device with FW upgraded to at least 0.5.4
-   ```
-
----
-
-## Launching odrivetool After Firmware Update
-
-After completing the firmware update, you can launch the tool to interact with your device. The tests I did are in each folder.
 ```bash
+python3.8 -m venv .venv
+source .venv/bin/activate
+python -m pip install odrive==0.5.4
 odrivetool
 ```
 
----
+Before executing a script, review its voltage/current limits, resistance, pole pairs, requested
+speed, startup ramp and braking/regeneration settings against the actual motor and supply. In
+particular, the source sets `pre_calibrated = True` instead of performing calibration. From the
+interactive tool, use the absolute path to the chosen configuration, for example:
 
-## Future Work
+```python
+exec(open('/path/to/servo_tests/iPOWER_Motor_GM5208-24/test_sensorless.py').read())
+```
 
-- Integrate encoder feedback
-- Add more off the shelf servos/steppers
-- Add visualizations for easier debugging. The current Odrive gui doesnt support non official odrives or older versions
+Have a physical power cutoff available and keep the motor/load secured before launching a script.
+To request zero velocity in the same session, use `dev0.axis0.controller.input_vel = 0`. That uses
+the same velocity-command field as the scripts; the stop behavior and stopping distance were not
+validated for this review. The scripts do not call `save_configuration()` or `erase_configuration()`
+and do not request persistence themselves.
 
-## Contributing
+This describes the scripts' intended execution context; it was not run for this documentation
+revision. Do not run them with plain `python test_sensorless.py`, where `dev0` and the ODrive
+constants are undefined.
 
-Feedback, issue reports, and contributions are welcome. Please follow proper coding practices and safety guidelines.
+## Validation and limitations
 
-## License
+Review date: 2026-11-12.
 
-MIT License
+This revision inspected all five scripts and their configuration values. No controller was
+connected, no firmware was changed and no motor was run. The repository contains no measured
+speed/current traces, pass/fail criteria or saved results demonstrating stable sensorless control.
+The firmware/version notes are a historical setup account, not an automated compatibility matrix.
+macOS support has not been verified.
+
+The scripts configure one axis and issue an open-ended velocity command. They do not implement
+encoder feedback, a measurement loop, fault analysis or an automatic shutdown sequence. Parameters
+must be evaluated separately for each physical setup.
+
+## Attribution and license
+
+The original scripts and [MIT license](LICENSE) are retained without code changes.
